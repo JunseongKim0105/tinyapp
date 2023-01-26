@@ -1,6 +1,13 @@
 const express = require('express');
 const app = express();
 const PORT = 8080;
+const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
+
+app.set('view engine', 'ejs');
+app.use(express.urlencoded({ extended: true }));
+app.use(morgan('dev'));
+app.use(cookieParser());
 
 const randomIDGenerate = (numberOfChar) => {
   const template =
@@ -13,8 +20,27 @@ const randomIDGenerate = (numberOfChar) => {
   return results.join('');
 };
 
-app.set('view engine', 'ejs');
-app.use(express.urlencoded({ extended: true }));
+const findUserByEmail = (email) => {
+  for (let id in users) {
+    if (users[id].email === email) {
+      return users[id];
+    }
+  }
+  return null;
+};
+
+const users = {
+  userRandomID: {
+    id: 'userRandomID',
+    email: 'user@example.com',
+    password: 'purple-monkey-dinosaur',
+  },
+  user2RandomID: {
+    id: 'user2RandomID',
+    email: 'user2@example.com',
+    password: 'dishwasher-funk',
+  },
+};
 
 const urlDatabase = {
   b2xVn2: 'http://www.lighthouselabs.ca',
@@ -86,6 +112,31 @@ app.post('/urls/:id/delete', (req, res) => {
 app.get('/hello', (req, res) => {
   res.send('<html><body>Hello <b>World</b></body></html>\n');
 });
+app.get('/login', (req, res) => {
+  if (req.cookies.user_id) {
+    res.redirect('/urls');
+    return;
+  }
+  let templateVars = { user: users[req.cookies['user_id']] };
+  res.status(200).render('urls_login', templateVars);
+});
+app.post('/login', (req, res) => {
+  for (let id in users) {
+    // console.log('id: ', id);
+    console.log('value???', users[id].id);
+    if (req.body.username === users[id].id) {
+      console.log(`found username matches!!!`);
+      res.cookie('user_id', users[id].id);
+      return res.redirect('/urls');
+    }
+    return res.send('Error');
+  }
+});
+
+app.post('/logout', (req, res) => {
+  res.clearCookie('user_id'.user.id).redirect('/urls');
+});
+///
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port${PORT}!`);
