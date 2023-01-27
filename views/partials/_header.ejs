@@ -1,6 +1,6 @@
 <header>
-  <nav class="navbar navbar-expand-md navbar-dark bg-success">
-    <a class="navbar-brand" href="/urls">TinyApp</a>
+  <nav class="navbar navbar-expand-md navbar-dark bg-secondary">
+    <a class="navbar-brand" href="/">TinyApp</a>
     <button
       class="navbar-toggler"
       type="button"
@@ -16,13 +16,16 @@
       <div class="navbar-nav">
         <a class="nav-item nav-link" href="/urls">My URLs</a>
         <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
-        <form method="GET" action="/login" href="/login">
-          <button type="submit">Login</button>
-        </form>
-        <form method="GET" action="/register" href="/register">
-          <button type="submit">Register</button>
-        </form>
       </div>
     </div>
+    <% if(user) { %>
+    <form action="/logout?_method=DELETE" method="post">
+      <span>Logedin As: <%= user.email %></span>
+      <button class="btn btn-outline-info">logout</button>
+    </form>
+    <% } else { %>
+    <a href="/register" class="btn btn-primary btn-sm mr-1">Register</a>
+    <a href="/login" class="btn btn-info btn-sm ml-2 mr-1">login</a>
+    <% } %>
   </nav>
 </header>

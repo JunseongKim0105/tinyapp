@@ -1,12 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-
     <!-- Bootstrap CSS -->
     <link
       rel="stylesheet"
@@ -19,29 +13,43 @@
       rel="icon"
       type="image/x-icon"
     />
-    <title>New URL - TinyApp Example</title>
+    <title>URL - TinyApp Example</title>
   </head>
-
   <body>
     <div class="d-flex flex-column min-vh-100">
       <%- include('partials/_header') %>
-      <main class="flex-fill" style="margin: 1em">
-        <h3>Create TinyURL</h3>
-        <form class="form-inline" action="/urls" method="POST">
-          <div class="form-group mb-2">
-            <label for="longURL">Enter a URL:</label>
-            <input
-              class="form-control"
-              type="text"
-              name="longURL"
-              placeholder="http://"
-              style="width: 300px; margin: 1em"
-            />
-            <button type="submit" class="btn btn-primary">Submit</button>
+      <main class="flex-fill">
+        <div class="container mt-3 container-sm mt-5">
+          <div
+            class="jumbotron text-white"
+            style="
+              background-image: url('https://cdn.pixabay.com/photo/2015/12/03/08/50/paper-1074131_1280.jpg');
+              height: 100%;
+              background-position: center;
+              background-repeat: no-repeat;
+              background-size: cover;
+            "
+          >
+            <h1 class="display-4">Hello User!</h1>
+            <p class="lead">
+              This is a simple app for keeping websites organized and kept in
+              database as short URL
+            </p>
+            <hr class="my-4" />
+            <p class="text-light">
+              Register as user now and you can enjoy free websites organized
+              database.
+            </p>
+            <a class="btn btn-primary btn-lg" href="/register" role="button"
+              >Sign Up!!</a
+            >
           </div>
-        </form>
+        </div>
       </main>
+
+     
     </div>
+
     <!-- Bootstrap JS -->
     <script
       src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
