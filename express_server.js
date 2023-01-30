@@ -11,33 +11,8 @@ const {
   findUserByEmail,
 } = require('./utils/helperFnc');
 
-const urlDatabase = {
-  b6UTxQ: {
-    longURL: 'https://www.tsn.ca',
-    userID: 'aJ48lW',
-    visitedCount: 0,
-    visitedUser: [],
-  },
-  i3BoGr: {
-    longURL: 'https://www.google.ca',
-    userID: 'aJ48lW',
-    visitedCount: 0,
-    visitedUser: [],
-  },
-};
-
-const users = {
-  userRandomID: {
-    id: 'userRandomID',
-    email: 'user@example.com',
-    password: 'purple-monkey-dinosaur',
-  },
-  user2RandomID: {
-    id: 'user2RandomID',
-    email: 'user2@example.com',
-    password: 'dishwasher-funk',
-  },
-};
+const urlDatabase = require('./database/urlDatabase');
+const users = require('./database/users');
 
 app.set('view engine', 'ejs');
 // All Middleware
@@ -47,7 +22,7 @@ app.use(
     keys: ['I am Iron man '],
   })
 );
-app.use(methodOverride('X-HTTP-Method-Override'));
+app.use(methodOverride('_method'));
 //app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.get('/', (req, res) => {
@@ -109,7 +84,7 @@ app.post('/login', (req, res) => {
     res.status(200).redirect('/urls');
   }
 });
-app.delete('/logout', (req, res) => {
+app.post('/logout', (req, res) => {
   req.session = null;
   res.redirect('/login');
 });
@@ -243,10 +218,6 @@ app.put('/urls/:id', (req, res) => {
   urlDatabase[id].userID = userID;
   urlDatabase[id].longURL = newURL;
   res.redirect(`/urls`);
-});
-
-app.get('/hello', (req, res) => {
-  res.send('<html><body>Hello <b>World</b></body></html>\n');
 });
 
 app.listen(PORT, () => {
